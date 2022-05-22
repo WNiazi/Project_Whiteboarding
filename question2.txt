@@ -1,0 +1,81 @@
+Question #2: Array Deduping
+Write an algorithm that removes duplicates from an array. Do not use a function like filter() to solve this. Once you have solved the problem, demonstrate how it can be solved with filter(). Solve the problem with and without recursion.
+
+Example
+Input: [7, 9, "hi", 12, "hi" 7, 53]
+
+Output: [7, 9, "hi", 12, 53]
+
+Error handling  try and catch ??  or console.log?
+Handling edge cases: getting an array with both intergers and strings and returning not duplicated one .  there is no null/undefined values 
+
+Testing all cases based on the possible inputs/outputs
+If time remains, engaging in more discussion about the prompt. For example, what a more efficient solution might look like?: set would be the easiest
+
+
+RECURSIVE
+//array.pop () removes the last element .  we don't use splice since it alters the orginial 
+//i <= length or length-1  (looks at the last one then .pop follows to the next one)
+//checkAgainst would be the left overafter pop
+//then we stop it 
+function removeDuplicates(inputArray, returnArr = []){
+  //edge case //typeof(inputArray)! ===NaN then return "sorry buddy it ain't going to work"
+  let element = inputArray[inputArray.length - 1];  //last index or we can get the first by let element =arr [0] then we would need to slice it off arr.slice
+  inputArray.pop();//this removes the last element 
+  adjustedArray = arr;  //new name for the changed array 
+  if(inputArray.length === 0){  //base case; reasons to stop, so it will stop the recursion when it is stopped 
+    returnArr.push(element);
+    return returnArr;
+    }
+  if(adjustedArray.includes(element)){ //checks to see if the last element/or index is the same the one popped off (one before the last)
+    return removeDuplicates(inputArray, returnArr);  //recursion part of the function, 
+  }else{
+    returnArr.push(element);//if it si not included then just push the array what that particular index 
+    return removeDuplicates(inputArray, returnArr);
+    }
+  return returnArr;
+  }
+removeDuplicates([7, 9, "hi", 12, "hi", 7, 53]);
+
+
+This one is nicer and short ! 
+function removeDuplicates(arr, i=0, newArray=[]) { //we are bring in the arr , setting the i=0 and making a variable which will contain newArray 
+  if (i >= arr.length) { //stopping point, once the index is greater to the arr.lenght (when finished), then return newArray
+    return newArray;
+  }
+  if (!newArray.includes(arr[i])) { //creating a boolean to see if there is a match or not ; this gets the unique values in indexes 
+    newArray.push(arr[i]);
+    i++ //keep going through the index 
+    return removeDuplicates(arr, i, newArray);  //recursion calls on the function bringing in array and setting i and newArray 
+  } else {
+    i++;
+    return removeDuplicates(arr, i, newArray);//recursion calls on the function
+  }
+}
+
+
+ITH FILTER
+function removeDuplicates(arr){
+  let returnArr = input.filter((element, index) => {
+    return arr.indexOf(element) === index;
+  })
+  return returnArr; 
+}
+removeDuplicates(arr);
+
+// Iteration
+const removeDuplicates = (arr) => { //brings in the input
+  let returnArray = []; //were we can store
+
+  for (let i = 0; i < arr.length; i++) { //for loop
+    if (returnArray.indexOf(arr[i]) === -1) { //if the if the a[i] equal zero it is the same, if it is -1 they are different 
+      returnArray.push(arr[i]); //then push it , the else if it is not ... 
+    }
+  }
+  return returnArray;
+};
+
+//Iteration using Set
+input =[7, 9, "hi", 12, "hi" 7, 53];
+const removeDuplicates = [...new Set(input)];  //the easiest.. not stated during code review
+
